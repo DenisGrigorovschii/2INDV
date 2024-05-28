@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Activity for Captain Smith</title>
+   <style>
+      /* Стили для основной страницы */
+      body {
+         font-family: Arial, sans-serif;
+         text-align: center;
+         margin: 50px;
+         background-color: #f0f0f0; /* Цвет фона */
+      }
+
+      h1 {
+         color: #333;
+         font-size: 24px; /* Размер шрифта */
+      }
+
+      #activity {
+         font-style: italic;
+         color: #777;
+         font-size: 20px; /* Размер шрифта */
+         margin-top: 20px; /* Отступ сверху */
+      }
+   </style>
+</head>
+<body>
+   <h1>Hey, Captain Smith, you can:</h1>
+   <i id="activity"></i>
+   <script>
+      // Функция для получения случайной активности
+      async function getRandomActivity() {
+         try {
+            const response = await fetch('https://jsonplaceholder.typicode.com/todos');
+            const data = await response.json();
+            // Выбираем случайную задачу из массива и выводим ее заголовок
+            const randomIndex = Math.floor(Math.random() * data.length);
+            displayActivity(data[randomIndex]);
+         } catch (error) {
+            console.error(error); // Выводим ошибку в консоль для диагностики
+            displayError();
+         }
+      }
+
+      // Функция для отображения активности
+      function displayActivity(activityData) {
+         const activityElement = document.getElementById('activity');
+         activityElement.textContent = activityData.title;
+      }
+
+      // Функция для отображения сообщения об ошибке
+      function displayError() {
+         const activityElement = document.getElementById('activity');
+         activityElement.textContent = 'К сожалению, произошла ошибка';
+      }
+
+      // Функция для обновления активности каждую минуту
+      function updateActivityPeriodically() {
+         setInterval(getRandomActivity, 60000); // Обновляем каждую минуту (60 секунд)
+      }
+
+      // Запускаем приложение
+      getRandomActivity();
+      updateActivityPeriodically();
+   </script>
+</body>
+</html>
